@@ -14,36 +14,36 @@
     <input type="text" id="nome" required><br><br>
 
     <p>Escolha seu Presente:</p>
-    <ul>
-      <li>
+    <ul id="lista-presentes">
+      <li data-item="Vaporizador">
         <a href="https://mercadolivre.com/sec/2ee4nJS" target="_blank">Vaporizador</a>
         <button type="button" onclick="registrarEscolha('Vaporizador')">Escolher</button>
       </li>
-      <li>
+      <li data-item="Ventilador De Coluna">
         <a href="https://mercadolivre.com/sec/1ZAdm5x" target="_blank">Ventilador De Coluna</a>
         <button type="button" onclick="registrarEscolha('Ventilador De Coluna')">Escolher</button>
       </li>
-      <li>
+      <li data-item="Jogo De Ferramentas">
         <a href="https://mercadolivre.com/sec/1hoSkKy" target="_blank">Jogo De Ferramentas</a>
         <button type="button" onclick="registrarEscolha('Jogo De Ferramentas')">Escolher</button>
       </li>
-      <li>
+      <li data-item="Jogo De Panelas">
         <a href="https://mercadolivre.com/sec/2uJVwKA" target="_blank">Jogo De Panelas</a>
         <button type="button" onclick="registrarEscolha('Jogo De Panelas')">Escolher</button>
       </li>
-      <li>
+      <li data-item="Cafeteira portátil">
         <a href="https://mercadolivre.com/sec/1i7Vb7f" target="_blank">Cafeteira portátil</a>
         <button type="button" onclick="registrarEscolha('Cafeteira portátil')">Escolher</button>
       </li>
-      <li>
+      <li data-item="Aspirador De Pó e Água Wap">
         <a href="https://mercadolivre.com/sec/2x2Jm1t" target="_blank">Aspirador De Pó e Água Wap</a>
         <button type="button" onclick="registrarEscolha('Aspirador De Pó e Água Wap')">Escolher</button>
       </li>
-      <li>
+      <li data-item="Kit Churrasco">
         <a href="https://mercadolivre.com/sec/1stjHiJ" target="_blank">Kit Churrasco</a>
         <button type="button" onclick="registrarEscolha('Kit Churrasco')">Escolher</button>
       </li>
-      <li>
+      <li data-item="Máquina Golden Waffle">
         <a href="https://mercadolivre.com/sec/1CfJRZT" target="_blank">Máquina Golden Waffle</a>
         <button type="button" onclick="registrarEscolha('Máquina Golden Waffle')">Escolher</button>
       </li>
@@ -51,6 +51,25 @@
   </form>
 
   <script>
+    // Carregar os itens já escolhidos
+    fetch('https://script.google.com/macros/s/AKfycbylqnJvb4PULuPJ8g2yLUbLk5kiLQmxorG-mQkAzbnzYOlufeO6y6A2icR4neOA2ZsS/exec?action=getEscolhas')
+      .then(response => response.json())
+      .then(data => {
+        const escolhidos = data;
+        // Remover itens escolhidos da lista
+        const listaItems = document.querySelectorAll('#lista-presentes li');
+        listaItems.forEach(item => {
+          const itemName = item.getAttribute('data-item');
+          if (escolhidos.includes(itemName)) {
+            item.querySelector('button').disabled = true;  // Desabilita o botão
+            item.querySelector('button').textContent = 'Escolhido';  // Muda o texto do botão
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Erro ao carregar itens escolhidos:', error);
+      });
+
     function registrarEscolha(presente) {
       const nome = document.getElementById('nome').value;
 
@@ -63,14 +82,26 @@
       data.append('nome', nome);
       data.append('presenteEscolhido', presente);
 
-      // URL do seu Google Apps Script
       fetch('https://script.google.com/macros/s/AKfycbylqnJvb4PULuPJ8g2yLUbLk5kiLQmxorG-mQkAzbnzYOlufeO6y6A2icR4neOA2ZsS/exec', {
         method: 'POST',
         body: data
       })
       .then(response => response.text())
       .then(result => {
-        alert('Escolha registrada com sucesso!');
+        if (result === 'Item já foi escolhido') {
+          alert('Esse item já foi escolhido, por favor, selecione outro.');
+        } else {
+          alert('Escolha registrada com sucesso!');
+          // Atualiza a lista removendo o item escolhido
+          const listaItems = document.querySelectorAll('#lista-presentes li');
+          listaItems.forEach(item => {
+            const itemName = item.getAttribute('data-item');
+            if (itemName === presente) {
+              item.querySelector('button').disabled = true;  // Desabilita o botão
+              item.querySelector('button').textContent = 'Escolhido';  // Muda o texto do botão
+            }
+          });
+        }
       })
       .catch(error => {
         alert('Erro ao registrar escolha.');
