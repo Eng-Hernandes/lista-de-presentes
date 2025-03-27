@@ -71,6 +71,14 @@
             presentes.forEach((presente, index) => {
                 const item = document.createElement('label');
                 item.textContent = presente.nome;
+
+                // Criando o link
+                const link = document.createElement('a');
+                link.href = presente.link;
+                link.target = "_blank"; // Abrir o link em uma nova aba
+                link.textContent = " - Ver no Mercado Livre";
+
+                item.appendChild(link);
                 item.setAttribute('data-index', index);
 
                 item.addEventListener('click', function() {
