@@ -13,35 +13,57 @@
     <label for="nome">Seu Nome:</label>
     <input type="text" id="nome" required><br><br>
 
-    <label for="presente">Escolha seu Presente:</label>
-    <select id="presente" required>
-      <option value="Vaporizador">Vaporizador</option>
-      <option value="Ventilador De Coluna">Ventilador De Coluna</option>
-      <option value="Jogo De Ferramentas">Jogo De Ferramentas</option>
-      <option value="Jogo De Panelas">Jogo De Panelas</option>
-      <option value="Cafeteira portátil">Cafeteira portátil</option>
-      <option value="Aspirador De Pó">Aspirador De Pó</option>
-      <option value="Kit Churrasco">Kit Churrasco</option>
-      <option value="Máquina Golden Waffle">Máquina Golden Waffle</option>
-    </select><br><br>
-
-    <button type="submit">Escolher</button>
+    <p>Escolha seu Presente:</p>
+    <ul>
+      <li>
+        <a href="https://mercadolivre.com/sec/2ee4nJS" target="_blank">Vaporizador</a>
+        <button type="button" onclick="registrarEscolha('Vaporizador')">Escolher</button>
+      </li>
+      <li>
+        <a href="https://mercadolivre.com/sec/1ZAdm5x" target="_blank">Ventilador De Coluna</a>
+        <button type="button" onclick="registrarEscolha('Ventilador De Coluna')">Escolher</button>
+      </li>
+      <li>
+        <a href="https://mercadolivre.com/sec/1hoSkKy" target="_blank">Jogo De Ferramentas</a>
+        <button type="button" onclick="registrarEscolha('Jogo De Ferramentas')">Escolher</button>
+      </li>
+      <li>
+        <a href="https://mercadolivre.com/sec/2uJVwKA" target="_blank">Jogo De Panelas</a>
+        <button type="button" onclick="registrarEscolha('Jogo De Panelas')">Escolher</button>
+      </li>
+      <li>
+        <a href="https://mercadolivre.com/sec/1i7Vb7f" target="_blank">Cafeteira portátil</a>
+        <button type="button" onclick="registrarEscolha('Cafeteira portátil')">Escolher</button>
+      </li>
+      <li>
+        <a href="https://mercadolivre.com/sec/2x2Jm1t" target="_blank">Aspirador De Pó e Água Wap</a>
+        <button type="button" onclick="registrarEscolha('Aspirador De Pó e Água Wap')">Escolher</button>
+      </li>
+      <li>
+        <a href="https://mercadolivre.com/sec/1stjHiJ" target="_blank">Kit Churrasco</a>
+        <button type="button" onclick="registrarEscolha('Kit Churrasco')">Escolher</button>
+      </li>
+      <li>
+        <a href="https://mercadolivre.com/sec/1CfJRZT" target="_blank">Máquina Golden Waffle</a>
+        <button type="button" onclick="registrarEscolha('Máquina Golden Waffle')">Escolher</button>
+      </li>
+    </ul>
   </form>
 
   <script>
-    const form = document.getElementById('form');
-    
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
+    function registrarEscolha(presente) {
       const nome = document.getElementById('nome').value;
-      const presenteEscolhido = document.getElementById('presente').value;
+
+      if (!nome) {
+        alert("Por favor, digite seu nome antes de escolher um presente.");
+        return;
+      }
 
       const data = new URLSearchParams();
       data.append('nome', nome);
-      data.append('presenteEscolhido', presenteEscolhido);
+      data.append('presenteEscolhido', presente);
 
-      // Aqui está o novo link gerado pelo Google Apps Script
+      // URL do seu Google Apps Script
       fetch('https://script.google.com/macros/s/AKfycbylqnJvb4PULuPJ8g2yLUbLk5kiLQmxorG-mQkAzbnzYOlufeO6y6A2icR4neOA2ZsS/exec', {
         method: 'POST',
         body: data
@@ -53,7 +75,7 @@
       .catch(error => {
         alert('Erro ao registrar escolha.');
       });
-    });
+    }
   </script>
 
 </body>
