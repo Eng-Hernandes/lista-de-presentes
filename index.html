@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escolha um Presente</title>
   <script>
-    function registrarEscolha() {
-      var nome = document.getElementById('nome').value;
-      var itemEscolhido = document.getElementById('presentes').value;
-
+    function registrarEscolha(nome, itemEscolhido) {
       if (!nome || !itemEscolhido) {
         alert('Por favor, preencha todos os campos.');
         return;
@@ -25,8 +22,8 @@
             alert(data.mensagem); // Exibe o popup se o item já foi escolhido
           } else {
             alert(data.mensagem); // Sucesso
-            // Remover o item da lista (opcional: você pode fazer isso no Apps Script)
-            document.getElementById('presentes').options[document.getElementById('presentes').selectedIndex].disabled = true;
+            // Remover o item da lista (desabilitando o botão de escolha)
+            document.getElementById(itemEscolhido).disabled = true;
           }
         })
         .catch(error => {
@@ -40,19 +37,48 @@
   
   <label for="nome">Seu nome:</label>
   <input type="text" id="nome" name="nome"><br><br>
-  
-  <label for="presentes">Escolha um presente:</label>
-  <select id="presentes">
-    <option value="Vaporizador e Ferro de Passar Roupa">Vaporizador e Ferro de Passar Roupa</option>
-    <option value="Ventilador De Coluna">Ventilador De Coluna</option>
-    <option value="Jogo De Ferramentas">Jogo De Ferramentas</option>
-    <option value="Jogo De Panelas">Jogo De Panelas</option>
-    <option value="Cafeteira portátil">Cafeteira portátil</option>
-    <option value="Aspirador De Pó e Água Wap">Aspirador De Pó e Água Wap</option>
-    <option value="Kit Churrasco">Kit Churrasco</option>
-    <option value="Máquina Golden Waffle">Máquina Golden Waffle</option>
-  </select><br><br>
-  
-  <button onclick="registrarEscolha()">Escolher</button>
+
+  <ul>
+    <li>
+      <span>Vaporizador e Ferro de Passar Roupa</span>
+      <a href="https://mercadolivre.com/sec/2ee4nJS" target="_blank">Comprar</a>
+      <button id="Vaporizador" onclick="registrarEscolha(document.getElementById('nome').value, 'Vaporizador e Ferro de Passar Roupa')">Escolher</button>
+    </li>
+    <li>
+      <span>Ventilador De Coluna</span>
+      <a href="https://mercadolivre.com/sec/1ZAdm5x" target="_blank">Comprar</a>
+      <button id="Ventilador" onclick="registrarEscolha(document.getElementById('nome').value, 'Ventilador De Coluna')">Escolher</button>
+    </li>
+    <li>
+      <span>Jogo De Ferramentas</span>
+      <a href="https://mercadolivre.com/sec/1hoSkKy" target="_blank">Comprar</a>
+      <button id="JogoDeFerramentas" onclick="registrarEscolha(document.getElementById('nome').value, 'Jogo De Ferramentas')">Escolher</button>
+    </li>
+    <li>
+      <span>Jogo De Panelas</span>
+      <a href="https://mercadolivre.com/sec/2uJVwKA" target="_blank">Comprar</a>
+      <button id="JogoDePanelas" onclick="registrarEscolha(document.getElementById('nome').value, 'Jogo De Panelas')">Escolher</button>
+    </li>
+    <li>
+      <span>Cafeteira portátil</span>
+      <a href="https://mercadolivre.com/sec/1i7Vb7f" target="_blank">Comprar</a>
+      <button id="CafeteiraPortatil" onclick="registrarEscolha(document.getElementById('nome').value, 'Cafeteira portátil')">Escolher</button>
+    </li>
+    <li>
+      <span>Aspirador De Pó e Água Wap</span>
+      <a href="https://mercadolivre.com/sec/2x2Jm1t" target="_blank">Comprar</a>
+      <button id="Aspirador" onclick="registrarEscolha(document.getElementById('nome').value, 'Aspirador De Pó e Água Wap')">Escolher</button>
+    </li>
+    <li>
+      <span>Kit Churrasco</span>
+      <a href="https://mercadolivre.com/sec/1stjHiJ" target="_blank">Comprar</a>
+      <button id="KitChurrasco" onclick="registrarEscolha(document.getElementById('nome').value, 'Kit Churrasco')">Escolher</button>
+    </li>
+    <li>
+      <span>Máquina Golden Waffle</span>
+      <a href="https://mercadolivre.com/sec/1CfJRZT" target="_blank">Comprar</a>
+      <button id="MaquinaGoldenWaffle" onclick="registrarEscolha(document.getElementById('nome').value, 'Máquina Golden Waffle')">Escolher</button>
+    </li>
+  </ul>
 </body>
 </html>
