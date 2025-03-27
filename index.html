@@ -7,76 +7,94 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
         }
         h1 {
-            margin-top: 30px;
+            text-align: center;
             color: #333;
         }
-        input[type="text"] {
-            padding: 10px;
-            width: 80%;
-            margin-top: 20px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .item-list {
+            margin: 20px 0;
         }
-        .list-container {
-            margin-top: 20px;
-            text-align: left;
-            width: 80%;
-            margin: 0 auto;
-        }
-        .present-item {
+        .item-list label {
+            display: block;
             margin: 10px 0;
-            background-color: #fff;
-            padding: 15px;
+            padding: 10px;
+            background-color: #e9ecef;
             border-radius: 5px;
-            border: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 16px;
         }
-        a {
-            color: #007BFF;
-            text-decoration: none;
+        .item-list label:hover {
+            background-color: #ced4da;
         }
-        a:hover {
-            text-decoration: underline;
+        .chosen {
+            background-color: #28a745;
+            color: white;
+            text-decoration: line-through;
         }
     </style>
 </head>
 <body>
 
-    <h1>Escolha seus presentes!</h1>
-    
-    <label for="name">Identifique-se:</label>
-    <input type="text" id="name" placeholder="Digite seu nome aqui" required>
-    
-    <div class="list-container">
-        <div class="present-item">
-            <input type="checkbox" id="present1">
-            <label for="present1">
-                <strong>Presente 1</strong><br>
-                <a href="https://link-da-loja.com/presente1" target="_blank">Clique aqui para comprar</a>
-            </label>
-        </div>
-        <div class="present-item">
-            <input type="checkbox" id="present2">
-            <label for="present2">
-                <strong>Presente 2</strong><br>
-                <a href="https://link-da-loja.com/presente2" target="_blank">Clique aqui para comprar</a>
-            </label>
-        </div>
-        <div class="present-item">
-            <input type="checkbox" id="present3">
-            <label for="present3">
-                <strong>Presente 3</strong><br>
-                <a href="https://link-da-loja.com/presente3" target="_blank">Clique aqui para comprar</a>
-            </label>
-        </div>
-        <!-- Adicione mais itens conforme necessário -->
+    <h1>Escolha um Presente</h1>
+    <div>
+        <label for="nome">Digite seu nome:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome aqui">
     </div>
+    
+    <div class="item-list">
+        <h2>Escolha seu presente:</h2>
+
+        <div id="presentes"></div>
+    </div>
+
+    <script>
+        // Lista de presentes e seus links
+        const presentes = [
+            { nome: 'Vaporizador e Ferro de Passar Roupa', link: 'https://mercadolivre.com/sec/2ee4nJS' },
+            { nome: 'Ventilador De Coluna', link: 'https://mercadolivre.com/sec/1ZAdm5x' },
+            { nome: 'Jogo De Ferramentas', link: 'https://mercadolivre.com/sec/1hoSkKy' },
+            { nome: 'Jogo De Panelas', link: 'https://mercadolivre.com/sec/2uJVwKA' },
+            { nome: 'Cafeteira portátil', link: 'https://mercadolivre.com/sec/1i7Vb7f' },
+            { nome: 'Aspirador De Pó e Água Wap', link: 'https://mercadolivre.com/sec/2x2Jm1t' },
+            { nome: 'Kit Churrasco', link: 'https://mercadolivre.com/sec/1stjHiJ' },
+            { nome: 'Máquina Golden Waffle', link: 'https://mercadolivre.com/sec/1CfJRZT' }
+        ];
+
+        // Função para gerar os itens de presentes na página
+        function mostrarPresentes() {
+            const container = document.getElementById('presentes');
+            container.innerHTML = '';
+
+            presentes.forEach((presente, index) => {
+                const item = document.createElement('label');
+                item.textContent = presente.nome;
+                item.setAttribute('data-index', index);
+
+                item.addEventListener('click', function() {
+                    escolherPresente(index);
+                });
+
+                container.appendChild(item);
+            });
+        }
+
+        // Função que marca um presente como escolhido e remove da lista
+        function escolherPresente(index) {
+            const item = document.querySelector(`[data-index='${index}']`);
+            item.classList.add('chosen');
+            item.style.pointerEvents = 'none';  // Desabilita a interação com o item escolhido
+
+            // Desabilita a opção na lista de presentes
+            presentes.splice(index, 1);
+            mostrarPresentes(); // Atualiza a lista removendo o item escolhido
+        }
+
+        // Exibe os presentes inicialmente
+        mostrarPresentes();
+    </script>
 
 </body>
 </html>
