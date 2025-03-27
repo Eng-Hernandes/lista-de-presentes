@@ -41,7 +41,8 @@
       data.append('nome', nome);
       data.append('presenteEscolhido', presenteEscolhido);
 
-      fetch('https://script.google.com/macros/s/AKfycbxWQ_-vna9gQHRyZAExzB8Y1sKqmcPYOb89qAXQH_2bblFioetw8HGfLkIVTxgymGKH/exec', {
+      // Aqui está o novo link gerado pelo Google Apps Script
+      fetch('https://script.google.com/macros/s/AKfycbylqnJvb4PULuPJ8g2yLUbLk5kiLQmxorG-mQkAzbnzYOlufeO6y6A2icR4neOA2ZsS/exec', {
         method: 'POST',
         body: data
       })
