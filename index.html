@@ -1,165 +1,59 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Presentes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Link para ícones -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .item-list {
-            margin: 20px 0;
-        }
-        .item-list label {
-            display: block;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            position: relative;
-        }
-        .item-list label:hover {
-            background-color: #ced4da;
-        }
-        .item-list .choose-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .item-list .choose-btn:hover {
-            background-color: #0056b3;
-        }
-        .chosen {
-            background-color: #28a745;
-            color: white;
-            text-decoration: line-through;
-        }
-        .chosen .choose-btn {
-            background-color: #6c757d;
-            cursor: not-allowed;
-        }
-        .chosen .choose-btn:hover {
-            background-color: #6c757d;
-        }
-        .chosen i {
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolha de Presentes</title>
 </head>
 <body>
 
-    <h1>Escolha um Presente</h1>
-    <div>
-        <label for="nome">Digite seu nome:</label>
-        <input type="text" id="nome" placeholder="Digite seu nome aqui">
-    </div>
+  <h1>Escolha seu Presente</h1>
+
+  <form id="form">
+    <label for="nome">Seu Nome:</label>
+    <input type="text" id="nome" required><br><br>
+
+    <label for="presente">Escolha seu Presente:</label>
+    <select id="presente" required>
+      <option value="Vaporizador">Vaporizador</option>
+      <option value="Ventilador De Coluna">Ventilador De Coluna</option>
+      <option value="Jogo De Ferramentas">Jogo De Ferramentas</option>
+      <option value="Jogo De Panelas">Jogo De Panelas</option>
+      <option value="Cafeteira portátil">Cafeteira portátil</option>
+      <option value="Aspirador De Pó">Aspirador De Pó</option>
+      <option value="Kit Churrasco">Kit Churrasco</option>
+      <option value="Máquina Golden Waffle">Máquina Golden Waffle</option>
+    </select><br><br>
+
+    <button type="submit">Escolher</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('form');
     
-    <div class="item-list">
-        <h2>Escolha seu presente:</h2>
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
 
-        <div id="presentes"></div>
-    </div>
+      const nome = document.getElementById('nome').value;
+      const presenteEscolhido = document.getElementById('presente').value;
 
-    <script>
-        const presentes = [
-            { nome: 'Vaporizador e Ferro de Passar Roupa', link: 'https://mercadolivre.com/sec/2ee4nJS' },
-            { nome: 'Ventilador De Coluna', link: 'https://mercadolivre.com/sec/1ZAdm5x' },
-            { nome: 'Jogo De Ferramentas', link: 'https://mercadolivre.com/sec/1hoSkKy' },
-            { nome: 'Jogo De Panelas', link: 'https://mercadolivre.com/sec/2uJVwKA' },
-            { nome: 'Cafeteira portátil', link: 'https://mercadolivre.com/sec/1i7Vb7f' },
-            { nome: 'Aspirador De Pó e Água Wap', link: 'https://mercadolivre.com/sec/2x2Jm1t' },
-            { nome: 'Kit Churrasco', link: 'https://mercadolivre.com/sec/1stjHiJ' },
-            { nome: 'Máquina Golden Waffle', link: 'https://mercadolivre.com/sec/1CfJRZT' }
-        ];
+      const data = new URLSearchParams();
+      data.append('nome', nome);
+      data.append('presenteEscolhido', presenteEscolhido);
 
-        const planilhaUrl = "https://script.google.com/macros/s/AKfycbzpauWDfKw_JZexR947RGkblnsyot2tiFrD-r27IBbM3XGPLzCIDcigi7KgUYMJy3T-/exec"; // Link do seu Google Apps Script
-
-        function mostrarPresentes() {
-            const container = document.getElementById('presentes');
-            container.innerHTML = '';
-
-            presentes.forEach((presente, index) => {
-                const item = document.createElement('label');
-                item.textContent = presente.nome;
-
-                // Link do presente
-                const link = document.createElement('a');
-                link.href = presente.link;
-                link.target = "_blank"; // Abrir em nova aba
-                link.textContent = " - Ver no Mercado Livre";
-
-                item.appendChild(link);
-
-                // Botão "Escolher"
-                const chooseBtn = document.createElement('button');
-                chooseBtn.className = 'choose-btn';
-                chooseBtn.innerHTML = 'Escolher <i class="fas fa-check"></i>';
-                chooseBtn.setAttribute('data-index', index);
-
-                chooseBtn.addEventListener('click', function() {
-                    escolherPresente(index);
-                });
-
-                item.appendChild(chooseBtn);
-                item.setAttribute('data-index', index);
-
-                container.appendChild(item);
-            });
-        }
-
-        function escolherPresente(index) {
-            const nome = document.getElementById('nome').value;
-            const presenteEscolhido = presentes[index].nome;
-
-            if (!nome) {
-                alert("Por favor, insira seu nome.");
-                return;
-            }
-
-            // Enviar a escolha para o Google Sheets
-            const params = new URLSearchParams();
-            params.append("nome", nome);
-            params.append("presente", presenteEscolhido);
-
-            fetch(planilhaUrl, {
-                method: 'POST',
-                body: params
-            }).then(response => response.text())
-              .then(data => {
-                  alert("Escolha registrada com sucesso!");
-              }).catch(error => {
-                  alert("Erro ao registrar a escolha.");
-              });
-
-            // Marcar o item como escolhido
-            const item = document.querySelector(`[data-index='${index}']`);
-            item.classList.add('chosen');
-            item.style.pointerEvents = 'none';  // Desabilita a interação com o item escolhido
-
-            // Desabilita o item na lista
-            presentes.splice(index, 1);
-            mostrarPresentes(); // Atualiza a lista
-        }
-
-        mostrarPresentes();
-    </script>
+      fetch('https://script.google.com/macros/s/AKfycbxWQ_-vna9gQHRyZAExzB8Y1sKqmcPYOb89qAXQH_2bblFioetw8HGfLkIVTxgymGKH/exec', {
+        method: 'POST',
+        body: data
+      })
+      .then(response => response.text())
+      .then(result => {
+        alert('Escolha registrada com sucesso!');
+      })
+      .catch(error => {
+        alert('Erro ao registrar escolha.');
+      });
+    });
+  </script>
 
 </body>
 </html>
