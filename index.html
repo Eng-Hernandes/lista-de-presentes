@@ -1,113 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escolha de Presentes</title>
-</head>
-<body>
-
-  <h1>Escolha seu Presente</h1>
-
-  <form id="form">
-    <label for="nome">Seu Nome:</label>
-    <input type="text" id="nome" required><br><br>
-
-    <p>Escolha seu Presente:</p>
-    <ul id="lista-presentes">
-      <li data-item="Vaporizador">
-        <a href="https://mercadolivre.com/sec/2ee4nJS" target="_blank">Vaporizador</a>
-        <button type="button" onclick="registrarEscolha('Vaporizador')">Escolher</button>
-      </li>
-      <li data-item="Ventilador De Coluna">
-        <a href="https://mercadolivre.com/sec/1ZAdm5x" target="_blank">Ventilador De Coluna</a>
-        <button type="button" onclick="registrarEscolha('Ventilador De Coluna')">Escolher</button>
-      </li>
-      <li data-item="Jogo De Ferramentas">
-        <a href="https://mercadolivre.com/sec/1hoSkKy" target="_blank">Jogo De Ferramentas</a>
-        <button type="button" onclick="registrarEscolha('Jogo De Ferramentas')">Escolher</button>
-      </li>
-      <li data-item="Jogo De Panelas">
-        <a href="https://mercadolivre.com/sec/2uJVwKA" target="_blank">Jogo De Panelas</a>
-        <button type="button" onclick="registrarEscolha('Jogo De Panelas')">Escolher</button>
-      </li>
-      <li data-item="Cafeteira portátil">
-        <a href="https://mercadolivre.com/sec/1i7Vb7f" target="_blank">Cafeteira portátil</a>
-        <button type="button" onclick="registrarEscolha('Cafeteira portátil')">Escolher</button>
-      </li>
-      <li data-item="Aspirador De Pó e Água Wap">
-        <a href="https://mercadolivre.com/sec/2x2Jm1t" target="_blank">Aspirador De Pó e Água Wap</a>
-        <button type="button" onclick="registrarEscolha('Aspirador De Pó e Água Wap')">Escolher</button>
-      </li>
-      <li data-item="Kit Churrasco">
-        <a href="https://mercadolivre.com/sec/1stjHiJ" target="_blank">Kit Churrasco</a>
-        <button type="button" onclick="registrarEscolha('Kit Churrasco')">Escolher</button>
-      </li>
-      <li data-item="Máquina Golden Waffle">
-        <a href="https://mercadolivre.com/sec/1CfJRZT" target="_blank">Máquina Golden Waffle</a>
-        <button type="button" onclick="registrarEscolha('Máquina Golden Waffle')">Escolher</button>
-      </li>
-    </ul>
-  </form>
-
+  <title>Escolha um Presente</title>
   <script>
-    // Carregar os itens já escolhidos
-    fetch('https://script.google.com/macros/s/AKfycbylqnJvb4PULuPJ8g2yLUbLk5kiLQmxorG-mQkAzbnzYOlufeO6y6A2icR4neOA2ZsS/exec?action=getEscolhas')
-      .then(response => response.json())
-      .then(data => {
-        const escolhidos = data;
-        // Remover itens escolhidos da lista
-        const listaItems = document.querySelectorAll('#lista-presentes li');
-        listaItems.forEach(item => {
-          const itemName = item.getAttribute('data-item');
-          if (escolhidos.includes(itemName)) {
-            item.querySelector('button').disabled = true;  // Desabilita o botão
-            item.querySelector('button').textContent = 'Escolhido';  // Muda o texto do botão
-          }
-        });
-      })
-      .catch(error => {
-        console.error('Erro ao carregar itens escolhidos:', error);
-      });
+    function registrarEscolha() {
+      var nome = document.getElementById('nome').value;
+      var itemEscolhido = document.getElementById('presentes').value;
 
-    function registrarEscolha(presente) {
-      const nome = document.getElementById('nome').value;
-
-      if (!nome) {
-        alert("Por favor, digite seu nome antes de escolher um presente.");
+      if (!nome || !itemEscolhido) {
+        alert('Por favor, preencha todos os campos.');
         return;
       }
 
-      const data = new URLSearchParams();
-      data.append('nome', nome);
-      data.append('presenteEscolhido', presente);
-
-      fetch('https://script.google.com/macros/s/AKfycbylqnJvb4PULuPJ8g2yLUbLk5kiLQmxorG-mQkAzbnzYOlufeO6y6A2icR4neOA2ZsS/exec', {
-        method: 'POST',
-        body: data
-      })
-      .then(response => response.text())
-      .then(result => {
-        if (result === 'Item já foi escolhido') {
-          alert('Esse item já foi escolhido, por favor, selecione outro.');
-        } else {
-          alert('Escolha registrada com sucesso!');
-          // Atualiza a lista removendo o item escolhido
-          const listaItems = document.querySelectorAll('#lista-presentes li');
-          listaItems.forEach(item => {
-            const itemName = item.getAttribute('data-item');
-            if (itemName === presente) {
-              item.querySelector('button').disabled = true;  // Desabilita o botão
-              item.querySelector('button').textContent = 'Escolhido';  // Muda o texto do botão
-            }
-          });
-        }
-      })
-      .catch(error => {
-        alert('Erro ao registrar escolha.');
-      });
+      // Substitua pelo link do seu Google Apps Script
+      var linkScript = "https://script.google.com/macros/s/AKfycbxYgC-vUZw2sfUMyttIY-qkE0fUcj2FzAXAgGPMo7j605MnQpu_SKqbTxX2wwLAQXdS/exec";
+      
+      // Chama a função no Google Apps Script para registrar a escolha
+      fetch(linkScript + `?nome=${nome}&itemEscolhido=${itemEscolhido}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'erro') {
+            alert(data.mensagem); // Exibe o popup se o item já foi escolhido
+          } else {
+            alert(data.mensagem); // Sucesso
+            // Remover o item da lista (opcional: você pode fazer isso no Apps Script)
+            document.getElementById('presentes').options[document.getElementById('presentes').selectedIndex].disabled = true;
+          }
+        })
+        .catch(error => {
+          alert('Erro ao registrar escolha. Tente novamente.');
+        });
     }
   </script>
-
+</head>
+<body>
+  <h2>Escolha um Presente</h2>
+  
+  <label for="nome">Seu nome:</label>
+  <input type="text" id="nome" name="nome"><br><br>
+  
+  <label for="presentes">Escolha um presente:</label>
+  <select id="presentes">
+    <option value="Vaporizador e Ferro de Passar Roupa">Vaporizador e Ferro de Passar Roupa</option>
+    <option value="Ventilador De Coluna">Ventilador De Coluna</option>
+    <option value="Jogo De Ferramentas">Jogo De Ferramentas</option>
+    <option value="Jogo De Panelas">Jogo De Panelas</option>
+    <option value="Cafeteira portátil">Cafeteira portátil</option>
+    <option value="Aspirador De Pó e Água Wap">Aspirador De Pó e Água Wap</option>
+    <option value="Kit Churrasco">Kit Churrasco</option>
+    <option value="Máquina Golden Waffle">Máquina Golden Waffle</option>
+  </select><br><br>
+  
+  <button onclick="registrarEscolha()">Escolher</button>
 </body>
 </html>
